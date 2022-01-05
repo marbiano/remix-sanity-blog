@@ -8,7 +8,6 @@ import {
 } from "remix";
 import type { MetaFunction, LinksFunction } from "remix";
 import tailwindStyles from "~/styles/tailwind.css";
-import appStyles from "~/styles/app.css";
 import Header from "~/components/Header";
 
 export const meta: MetaFunction = () => {
@@ -16,13 +15,7 @@ export const meta: MetaFunction = () => {
 };
 
 export let links: LinksFunction = () => {
-  return [
-    { rel: "stylesheet", href: tailwindStyles },
-    {
-      rel: "stylesheet",
-      href: appStyles,
-    },
-  ];
+  return [{ rel: "stylesheet", href: tailwindStyles }];
 };
 
 export default function App() {

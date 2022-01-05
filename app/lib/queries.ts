@@ -5,6 +5,7 @@ const postFields = `
   "author": author->{ name, image },
   coverImage,
   publishedAt,
+  intro
 `;
 
 export const indexQuery = `
@@ -14,8 +15,7 @@ export const indexQuery = `
 
 export const postBySlugQuery = `
 *[_type == "post" && slug.current == $slug][0] {
-  ${postFields}
-  intro,
+  ${postFields},
   body[]{
     ..., 
     asset->{

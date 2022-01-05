@@ -1,28 +1,31 @@
 import { Link, useLoaderData } from "remix";
 import type { LoaderFunction } from "remix";
-import createSanityClient from "~/lib/client";
+import createSanityClient, { getImageUrlBuilder } from "~/lib/client";
 import { indexQuery } from "~/lib/queries";
+import type { Post } from "~/lib/types";
+import PostPreview from "~/components/PostPreview";
 
-type Post = {
-  title: string;
-  slug: string;
-};
-
-export const loader: LoaderFunction = ({ context }): Promise<Post[]> => {
+export const loader: LoaderFunction = async ({ context }): Promise<Post[]> => {
   const client = createSanityClient({ projectId: context.SANITY_PROJECT_ID });
-  return client.fetch(indexQuery);
+  const imgUrlBuilder = getImageUrlBuilder(client);
+  const posts: Post[] = await client.fetch(indexQuery);
+  return posts.map((post) => ({
+    ...post,
+    coverImage: imgUrlBuilder.image(post.coverImage).width(600).url(),
+  }));
 };
 
 export default function Index() {
   const posts: Post[] = useLoaderData();
 
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
-      <h1>Welcome to Remix</h1>
-      <ul>
+    <div className="container mx-auto mt-24">
+      <ul className="grid gap-8 grid-cols-3">
         {posts.map((post) => (
-          <li key={post.title}>
-            <Link to={`posts/${post.slug}`}>{post.title}</Link>
+          <li key={post.slug}>
+            <Link to={`posts/${post.slug}`}>
+              <PostPreview {...post} />
+            </Link>
           </li>
         ))}
       </ul>

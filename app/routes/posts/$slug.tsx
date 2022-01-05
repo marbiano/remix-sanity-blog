@@ -1,11 +1,10 @@
 import { useLoaderData } from "remix";
 import type { LoaderFunction } from "remix";
-import BlockContent from "@sanity/block-content-to-react";
 import { postBySlugQuery } from "~/lib/queries";
 import createSanityClient, { getImageUrlBuilder } from "~/lib/client";
 import PostHeader from "~/components/PostHeader";
 import { Post } from "~/lib/types";
-import PostCover from "~/components/PostCover";
+import PostContent from "~/components/PostContent";
 
 export const loader: LoaderFunction = async ({
   params,
@@ -20,16 +19,12 @@ export const loader: LoaderFunction = async ({
   };
 };
 
-export default function PostSlug() {
+export default function Post() {
   const post: Post = useLoaderData();
-  console.log(post);
   return (
     <article>
       <PostHeader {...post} />
-      {post.coverImage && <PostCover coverImage={post.coverImage} />}
-      <section className="prose prose-zinc lg:prose-lg mx-auto my-16">
-        <BlockContent blocks={post.body} />
-      </section>
+      <PostContent body={post.body} />
     </article>
   );
 }

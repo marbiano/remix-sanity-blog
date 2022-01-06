@@ -10,24 +10,27 @@ export const loader: LoaderFunction = async ({ params, context }) => {
   const client = createSanityClient({ projectId: context.SANITY_PROJECT_ID });
   const imgUrlBuilder = getImageUrlBuilder(client);
   const post: Post = await client.fetch(postBySlugQuery, { slug: params.slug });
+
+  const headers = new Headers();
+  headers.set("Cache-Control", "max-age=0, s-maxage=3600");
+
   return json<Post>(
     {
       ...post,
       coverImage: imgUrlBuilder.image(post.coverImage).width(1200).url(),
     },
     {
-      status: 200,
-      headers: {
-        "Cache-Control": "max-age=300, s-maxage=3600",
-      },
+      headers,
     }
   );
 };
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
   const headers = new Headers();
-  headers.set("Cache-Control", "max-age=300, s-maxage=3600");
-  console.log("loaderHeaders CC", loaderHeaders.get("Cache-Control"));
+  const cacheControl = loaderHeaders.get("Cache-Control");
+  if (cacheControl) {
+    headers.set("Cache-Control", cacheControl);
+  }
   return headers;
 };
 

@@ -8,7 +8,7 @@ const postFields = `
   intro
 `;
 
-export const indexQuery = `
+export const allPostsQuery = `
 *[_type == "post"] | order(publishedAt desc, _updatedAt desc) {
   ${postFields}
 }`;

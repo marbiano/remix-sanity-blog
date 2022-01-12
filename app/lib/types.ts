@@ -13,3 +13,12 @@ export type Post = {
   intro: string;
   body: unknown;
 };
+
+export type SanityConfig = {
+  projectId: string;
+  dataset?: string;
+  apiVersion?: string;
+  token?: string;
+  useCdn?: boolean;
+  withCredentials?: boolean;
+};

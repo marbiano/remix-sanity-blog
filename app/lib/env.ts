@@ -1,6 +1,6 @@
 import type { AppLoadContext } from "remix";
 
-export default function getEnv(
+export default function env(
   key: string,
   context?: AppLoadContext
 ): string | null {

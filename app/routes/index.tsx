@@ -1,28 +1,11 @@
 import { Link, useLoaderData } from "remix";
 import type { LoaderFunction } from "remix";
-import createSanityClient, { getImageUrlBuilder } from "~/lib/client";
-import { indexQuery } from "~/lib/queries";
+import { getAllPosts } from "~/lib/client";
 import type { Post } from "~/lib/types";
 import PostPreview from "~/components/PostPreview";
-import getEnv from "~/lib/get-env";
 
-export const loader: LoaderFunction = async ({
-  context,
-}): Promise<Post[] | undefined> => {
-  const SANITY_PROJECT_ID = getEnv("SANITY_PROJECT_ID", context);
-  if (!SANITY_PROJECT_ID) {
-    return;
-  }
-
-  const client = createSanityClient({
-    projectId: SANITY_PROJECT_ID,
-  });
-  const imgUrlBuilder = getImageUrlBuilder(client);
-  const posts: Post[] = await client.fetch(indexQuery);
-  return posts.map((post) => ({
-    ...post,
-    coverImage: imgUrlBuilder.image(post.coverImage).width(600).url(),
-  }));
+export const loader: LoaderFunction = () => {
+  return getAllPosts();
 };
 
 export default function Index() {

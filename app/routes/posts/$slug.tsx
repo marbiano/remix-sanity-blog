@@ -9,7 +9,7 @@ import getEnv from "~/lib/get-env";
 
 function getHeaders(): Headers {
   const headers = new Headers();
-  headers.set("Cache-Control", "max-age=0, s-maxage=3600");
+  headers.set("Cache-Control", "max-age=5");
   return headers;
 }
 

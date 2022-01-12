@@ -1,6 +1,4 @@
 declare module "@sanity/block-content-to-react" {
-  import * as React from "react";
-
   export interface BlockContentProps {
     /**
      * Pass in either an array or a single object of [Portable Text](https://github.com/portabletext/portabletext)

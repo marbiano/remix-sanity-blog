@@ -22,3 +22,11 @@ export type SanityConfig = {
   useCdn?: boolean;
   withCredentials?: boolean;
 };
+
+export type SerializerCodeProps = {
+  node: {
+    _type: "code";
+    language: string;
+    code: string;
+  };
+};

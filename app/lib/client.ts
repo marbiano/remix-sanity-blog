@@ -11,6 +11,14 @@ const defaultConfig = {
   apiVersion: "2021-03-25",
 };
 
+function createSanityClient(config: SanityConfig) {
+  return new Sanity(Object.assign({}, defaultConfig, config));
+}
+
+function getImageUrlBuilder(client: PicoSanity) {
+  return imageUrlBuilder(client);
+}
+
 export async function getPost(slug: string): Promise<Post | undefined> {
   const SANITY_PROJECT_ID = env("SANITY_PROJECT_ID");
 
@@ -42,12 +50,4 @@ export async function getAllPosts(): Promise<Post[] | undefined> {
     ...post,
     coverImage: imgUrlBuilder.image(post.coverImage).width(600).url(),
   }));
-}
-
-function createSanityClient(config: SanityConfig) {
-  return new Sanity(Object.assign({}, defaultConfig, config));
-}
-
-function getImageUrlBuilder(client: PicoSanity) {
-  return imageUrlBuilder(client);
 }

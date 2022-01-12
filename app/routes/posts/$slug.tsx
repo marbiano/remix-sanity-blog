@@ -37,6 +37,7 @@ export const headers: HeadersFunction = () => {
 
 export default function Post() {
   const post: Post = useLoaderData();
+
   return (
     <article>
       <PostHeader {...post} />

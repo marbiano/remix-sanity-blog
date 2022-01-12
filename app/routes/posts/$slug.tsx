@@ -1,15 +1,10 @@
-import { HeadersFunction, useLoaderData, json } from "remix";
-import type { LoaderFunction } from "remix";
-import { getPost } from "~/lib/client";
-import PostHeader from "~/components/PostHeader";
+import { useLoaderData, json } from "remix";
+import type { HeadersFunction, LoaderFunction } from "remix";
 import type { Post } from "~/lib/types";
+import { getPost } from "~/lib/client";
+import getHeaders from "~/lib/get-headers";
+import PostHeader from "~/components/PostHeader";
 import PostContent from "~/components/PostContent";
-
-function getHeaders(): Headers {
-  const headers = new Headers();
-  headers.set("Cache-Control", "public, max-age=0, s-maxage=3600");
-  return headers;
-}
 
 export const loader: LoaderFunction = async ({
   params,

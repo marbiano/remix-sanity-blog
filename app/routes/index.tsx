@@ -1,11 +1,26 @@
-import { Link, useLoaderData } from "remix";
-import type { LoaderFunction } from "remix";
-import { getAllPosts } from "~/lib/client";
+import { json, Link, useLoaderData } from "remix";
+import type { HeadersFunction, LoaderFunction } from "remix";
 import type { Post } from "~/lib/types";
+import { getAllPosts } from "~/lib/client";
+import getHeaders from "~/lib/get-headers";
 import PostPreview from "~/components/PostPreview";
 
-export const loader: LoaderFunction = () => {
-  return getAllPosts();
+export const loader: LoaderFunction = async () => {
+  const posts = await getAllPosts();
+
+  if (!posts) {
+    return;
+  }
+
+  return json<Post[]>(posts, {
+    headers: getHeaders(),
+  });
+};
+
+export const headers: HeadersFunction = () => {
+  // Only until loaderHeaders works properly again: https://github.com/remix-run/remix/issues/1140
+  const headers = getHeaders();
+  return headers;
 };
 
 export default function Index() {
